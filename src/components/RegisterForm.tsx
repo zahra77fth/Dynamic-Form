@@ -1,89 +1,86 @@
+// src/components/RegisterForm.tsx
 import React, { useState } from 'react';
-import {SubmitHandler, useForm} from 'react-hook-form'
+import { useForm, SubmitHandler, FieldErrors, FieldValues } from 'react-hook-form';
+import Experiences from './Experiences';
+import TextInput from './TextInput';
 
-interface experience {
-    nameOfCompany: String,
-    startDate: Date,
-    endDate: Date,
-    roll: String,
-    description: String
+interface Experience {
+    nameOfCompany: string;
+    startDate: Date;
+    endDate: Date;
+    roll: string;
+    description: string;
 }
 
-interface formData {
-    name: String,
-    lastName: String,
-    age: number,
-    roll: String,
-    experiences: Array<experience>
+interface FormData extends FieldValues {
+    name: string;
+    lastName: string;
+    age: number;
+    roll: string;
+    experiences: Experience[];
 }
+
 const RegisterForm = () => {
-    const [experienceCounter, setExperienceCounter] = useState(0)
-    const { register, handleSubmit } = useForm<formData>()
+    const [experienceCounter, setExperienceCounter] = useState(0);
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-    const onSubmit: SubmitHandler<formData> = (data) => {
-        console.log(data)
-    }
-    for (let i = 0 ; i < experienceCounter ; i++) {
+    const onSubmit: SubmitHandler<FormData> = (data) => {
+        console.log(data);
+    };
 
-    }
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex justify-center items-center h-screen">
-            <div className="w-64 border border-gray-300 p-4 rounded">
-                <div>
-                    <label htmlFor="name">Name:</label>
-                    <input
-                        {...register("name")}
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="w-full border border-gray-300 rounded p-2"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="name">LastName:</label>
-                    <input
-                        {...register("name")}
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="w-full border border-gray-300 rounded p-2"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="number">Age:</label>
-                    <input
-                        type="text"
-                        id="number"
-                        name="number"
-                        className="w-full border border-gray-300 rounded p-2"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="occupation">Roll:</label>
-                    <input
-                        type="text"
-                        id="occupation"
-                        name="occupation"
-                        className="w-full border border-gray-300 rounded p-2"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="projectDetails">Project Details:</label>
-                    <textarea
-                        id="projectDetails"
-                        name="projectDetails"
-                        className="w-full border border-gray-300 rounded p-2"
-                    />
-                </div>
-                <button type="submit" className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+            <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded shadow-md w-full max-w-lg">
+                <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
+                <TextInput
+                    label="Name"
+                    id="name"
+                    register={register}
+                    errors={errors}
+                    validation={{ required: 'Name is required' }}
+                />
+                <TextInput
+                    label="Last Name"
+                    id="lastName"
+                    register={register}
+                    errors={errors}
+                    validation={{ required: 'Last Name is required' }}
+                />
+                <TextInput
+                    label="Age"
+                    id="age"
+                    type="number"
+                    register={register}
+                    errors={errors}
+                    validation={{
+                        required: 'Age is required',
+                        min: { value: 0, message: 'Age must be a positive number' }
+                    }}
+                />
+                <TextInput
+                    label="Roll"
+                    id="roll"
+                    register={register}
+                    errors={errors}
+                    validation={{ required: 'Roll is required' }}
+                />
+                <Experiences register={register} errors={errors} experienceCounter={experienceCounter} />
+                <button
+                    type="button"
+                    onClick={() => setExperienceCounter(experienceCounter + 1)}
+                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                >
+                    Add Experience
+                </button>
+                <button
+                    type="submit"
+                    className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
+                >
                     Submit
                 </button>
-            </div>
-        </form>
+            </form>
+        </div>
     );
-}
+};
 
 export default RegisterForm;

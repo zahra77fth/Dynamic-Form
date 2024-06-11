@@ -1,53 +1,59 @@
-import React from "react";
-import React, { useState } from 'react';
-import {SubmitHandler, useForm} from 'react-hook-form'
+import React from 'react';
+import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import TextInput from './TextInput';
+import DateInput from './DateInput';
 
-interface experience {
-    nameOfCompany: String,
-    startDate: Date,
-    endDate: Date,
-    roll: String,
-    description: String
+interface ExperienceProps {
+    register: UseFormRegister<any>;
+    errors: FieldErrors<any>;
+    experienceCounter: number;
 }
 
-const Experiences = () => {
-    const [experienceCounter, setExperienceCounter] = useState(0)
-    const { register, handleSubmit } = useForm<formData>()
-  return (
-      <div>
-          <div>
-              <label htmlFor="name">Name of Company:</label>
-              <input
-                  {...register("name")}
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="w-full border border-gray-300 rounded p-2"
-              />
-          </div>
-          <div>
-              <label htmlFor="completionDate">Date of Completion:</label>
-              <input
-                  type="date"
-                  id="completionDate"
-                  name="completionDate"
-                  className="w-full border border-gray-300 rounded p-2"
-              />
-          </div>
-          <div>
-              <label htmlFor="completionDate">Date of Completion:</label>
-              <input
-                  type="date"
-                  id="completionDate"
-                  name="completionDate"
-                  className="w-full border border-gray-300 rounded p-2"
-              />
-          </div>
+const Experiences: React.FC<ExperienceProps> = ({ register, errors, experienceCounter }) => {
+    return (
+        <>
+            {Array.from({ length: experienceCounter }).map((_, i) => (
+                <div key={i} className="mb-6">
+                    <h2 className="text-xl font-bold mb-4">Experience {i + 1}</h2>
+                    <TextInput
+                        label="Name of Company"
+                        id={`experiences.${i}.nameOfCompany`}
+                        register={register}
+                        errors={errors}
+                        validation={{ required: 'Company Name is required' }}
+                    />
+                    <TextInput
+                        label="Roll"
+                        id={`experiences.${i}.roll`}
+                        register={register}
+                        errors={errors}
+                        validation={{ required: 'Roll is required' }}
+                    />
+                    <DateInput
+                        label="Start Date"
+                        id={`experiences.${i}.startDate`}
+                        register={register}
+                        errors={errors}
+                        validation={{ required: 'Start Date is required' }}
+                    />
+                    <DateInput
+                        label="End Date"
+                        id={`experiences.${i}.endDate`}
+                        register={register}
+                        errors={errors}
+                        validation={{ required: 'End Date is required' }}
+                    />
+                    <TextInput
+                        label="Description"
+                        id={`experiences.${i}.description`}
+                        register={register}
+                        errors={errors}
+                        validation={{ required: 'Description is required' }}
+                    />
+                </div>
+            ))}
+        </>
+    );
+};
 
-          <button type="button" className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Add Experience
-          </button>
-      </div>
-  )
-}
-export default Experiences
+export default Experiences;
