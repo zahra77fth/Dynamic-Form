@@ -1,7 +1,6 @@
-// src/components/DateInput.tsx
 import React from 'react';
 import { FieldErrors, UseFormRegister, FieldValues } from 'react-hook-form';
-import { getError } from '../utils/formUtils'; // Import the utility function
+import { getError } from '../utils/formUtils';
 
 interface DateInputProps {
     label: string;

@@ -1,4 +1,3 @@
-// src/components/RegisterForm.tsx
 import React, { useState } from 'react';
 import { useForm, SubmitHandler, FieldErrors, FieldValues } from 'react-hook-form';
 import Experiences from './Experiences';

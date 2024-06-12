@@ -1,7 +1,6 @@
-// src/components/TextInput.tsx
 import React from 'react';
 import { FieldErrors, UseFormRegister, FieldValues } from 'react-hook-form';
-import { getError } from '../utils/formUtils'; // Import the utility function
+import { getError } from '../utils/formUtils';
 
 interface TextInputProps {
     label: string;
