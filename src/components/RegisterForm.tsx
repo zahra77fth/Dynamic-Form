@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler, FieldErrors, FieldValues } from 'react-hook-form';
+import { useForm, SubmitHandler, Control } from 'react-hook-form';
 import Experiences from './Experiences';
 import TextInput from './TextInput';
 
@@ -11,7 +11,7 @@ interface Experience {
     description: string;
 }
 
-interface FormData extends FieldValues {
+interface FormData {
     name: string;
     lastName: string;
     age: number;
@@ -21,7 +21,7 @@ interface FormData extends FieldValues {
 
 const RegisterForm = () => {
     const [experienceCounter, setExperienceCounter] = useState(0);
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
         console.log(data);
@@ -33,37 +33,33 @@ const RegisterForm = () => {
                 <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
                 <TextInput
                     label="Name"
-                    id="name"
-                    register={register}
-                    errors={errors}
-                    validation={{ required: 'Name is required' }}
+                    name="name"
+                    control={control}
+                    rules={{ required: 'Name is required' }}
                 />
                 <TextInput
                     label="Last Name"
-                    id="lastName"
-                    register={register}
-                    errors={errors}
-                    validation={{ required: 'Last Name is required' }}
+                    name="lastName"
+                    control={control}
+                    rules={{ required: 'Last Name is required' }}
                 />
                 <TextInput
                     label="Age"
-                    id="age"
+                    name="age"
                     type="number"
-                    register={register}
-                    errors={errors}
-                    validation={{
+                    control={control}
+                    rules={{
                         required: 'Age is required',
-                        min: { value: 0, message: 'Age must be a positive number' }
+                        min: { value: 18, message: 'You must be at least 18 years old' }
                     }}
                 />
                 <TextInput
                     label="Roll"
-                    id="roll"
-                    register={register}
-                    errors={errors}
-                    validation={{ required: 'Roll is required' }}
+                    name="roll"
+                    control={control}
+                    rules={{ required: 'Roll is required' }}
                 />
-                <Experiences register={register} errors={errors} experienceCounter={experienceCounter} />
+                <Experiences control={control} errors={errors} experienceCounter={experienceCounter} />
                 <button
                     type="button"
                     onClick={() => setExperienceCounter(experienceCounter + 1)}

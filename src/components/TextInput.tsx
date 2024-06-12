@@ -1,28 +1,37 @@
 import React from 'react';
-import { FieldErrors, UseFormRegister, FieldValues } from 'react-hook-form';
-import { getError } from '../utils/formUtils';
+import { Control, useController } from 'react-hook-form';
 
 interface TextInputProps {
     label: string;
-    id: string;
+    name: string;
+    control: Control<any>;
+    rules?: object;
     type?: string;
-    register: UseFormRegister<any>;
-    errors: FieldErrors<any>;
-    validation?: object;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, id, type = 'text', register, errors, validation }) => {
-    const error = getError(errors, id);
+const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type = 'text' }) => {
+    const {
+        field: { onChange, onBlur, value, ref },
+        fieldState: { error },
+    } = useController({
+        name,
+        control,
+        rules,
+    });
+
     return (
         <div className="mb-4">
-            <label htmlFor={id} className="block text-gray-700 text-sm font-bold mb-2">{label}</label>
+            <label htmlFor={name} className="block text-gray-700 text-sm font-bold mb-2">{label}</label>
             <input
-                {...register(id, validation)}
                 type={type}
-                id={id}
+                id={name}
+                value={value || ''}
+                onChange={onChange}
+                onBlur={onBlur}
+                ref={ref}
                 className={`w-full border ${error ? 'border-red-500' : 'border-gray-300'} rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {error && <p className="text-red-500 text-xs italic">{(error as any)?.message}</p>}
+            {error && <p className="text-red-500 text-xs italic">{error.message}</p>}
         </div>
     );
 };
