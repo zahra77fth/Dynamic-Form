@@ -7,9 +7,10 @@ interface TextInputProps {
     control: Control<any>;
     rules?: object;
     type?: string;
+    textarea?: boolean;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type = 'text' }) => {
+const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type = 'text', textarea = false }) => {
     const {
         field: { onChange, onBlur, value, ref },
         fieldState: { error },
@@ -20,18 +21,34 @@ const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type
     });
 
     return (
-        <div className="mb-4">
-            <label htmlFor={name} className="block text-gray-700 text-sm font-bold mb-2">{label}</label>
-            <input
-                type={type}
-                id={name}
-                value={value || ''}
-                onChange={onChange}
-                onBlur={onBlur}
-                ref={ref}
-                className={`w-full border ${error ? 'border-red-500' : 'border-gray-300'} rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            />
-            {error && <p className="text-red-500 text-xs italic">{error.message}</p>}
+        <div className="relative mb-6">
+            <label htmlFor={name} className="absolute -top-2 left-3 bg-white px-1 text-blue-600 text-sm">
+                {label}
+            </label>
+            {textarea ? (
+                <textarea
+                    id={name}
+                    value={value || ''}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    ref={ref}
+                    rows={3}
+                    className={`w-full px-3 py-2 border-2 rounded-lg focus:outline-none text-gray-800 
+                        ${error ? 'border-red-500' : 'border-blue-600 focus:border-blue-700'}`}
+                />
+            ) : (
+                <input
+                    type={type}
+                    id={name}
+                    value={value || ''}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    ref={ref}
+                    className={`w-full px-3 py-2 border-2 rounded-lg focus:outline-none text-gray-800 
+                        ${error ? 'border-red-500' : 'border-blue-600 focus:border-blue-700'}`}
+                />
+            )}
+            {error && <p className="text-red-500 text-xs mt-1">{error.message}</p>}
         </div>
     );
 };

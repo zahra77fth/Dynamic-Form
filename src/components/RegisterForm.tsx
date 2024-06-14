@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler, Control } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import Experiences from './Experiences';
 import TextInput from './TextInput';
 
@@ -16,6 +16,8 @@ interface FormData {
     lastName: string;
     age: number;
     roll: string;
+    phoneNumber: string;
+    email: string;
     experiences: Experience[];
 }
 
@@ -58,6 +60,18 @@ const RegisterForm = () => {
                     name="roll"
                     control={control}
                     rules={{ required: 'Roll is required' }}
+                />
+                <TextInput
+                    label="Phone Number"
+                    name="phoneNumber"
+                    control={control}
+                    rules={{ required: 'Phone Number is required' }}
+                />
+                <TextInput
+                    label="Email"
+                    name="email"
+                    control={control}
+                    rules={{ required: 'Email is required' }}
                 />
                 <Experiences control={control} errors={errors} experienceCounter={experienceCounter} />
                 <button
