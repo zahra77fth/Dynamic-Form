@@ -8,9 +8,10 @@ interface TextInputProps {
     rules?: object;
     type?: string;
     textarea?: boolean;
+    placeholder?: string;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type = 'text', textarea = false }) => {
+const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type = 'text', textarea = false, placeholder }) => {
     const {
         field: { onChange, onBlur, value, ref },
         fieldState: { error },
@@ -22,7 +23,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type
 
     return (
         <div className="relative mb-6">
-            <label htmlFor={name} className="absolute -top-2 left-3 bg-white px-1 text-blue-600 text-sm">
+            <label htmlFor={name} className="absolute -top-2 left-3 bg-white px-1 text-purple-600 text-sm">
                 {label}
             </label>
             {textarea ? (
@@ -33,8 +34,9 @@ const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type
                     onBlur={onBlur}
                     ref={ref}
                     rows={3}
+                    placeholder={placeholder}
                     className={`w-full px-3 py-2 border-2 rounded-lg focus:outline-none text-gray-800 
-                        ${error ? 'border-red-500' : 'border-blue-600 focus:border-blue-700'}`}
+                        ${error ? 'border-red-500' : 'border-purple-600 focus:border-purple-700'}`}
                 />
             ) : (
                 <input
@@ -44,8 +46,9 @@ const TextInput: React.FC<TextInputProps> = ({ label, name, control, rules, type
                     onChange={onChange}
                     onBlur={onBlur}
                     ref={ref}
+                    placeholder={placeholder}
                     className={`w-full px-3 py-2 border-2 rounded-lg focus:outline-none text-gray-800 
-                        ${error ? 'border-red-500' : 'border-blue-600 focus:border-blue-700'}`}
+                        ${error ? 'border-red-500' : 'border-purple-600 focus:border-purple-700'}`}
                 />
             )}
             {error && <p className="text-red-500 text-xs mt-1">{error.message}</p>}

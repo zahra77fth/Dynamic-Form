@@ -19,19 +19,21 @@ const Experiences: React.FC<ExperienceProps> = ({ control, errors, experienceCou
                 const endDate = experiences?.[i]?.endDate;
 
                 return (
-                    <div key={i} className="mb-6">
-                        <h2 className="text-xl font-bold mb-4">Experience {i + 1}</h2>
+                    <div key={i} className="mb-6 border rounded p-4 border-purple-200">
+                        <h2 className="text-xl font-bold mb-4 text-purple-900">Experience {i + 1}</h2>
                         <TextInput
                             label="Name of Company"
                             name={`experiences.${i}.nameOfCompany`}
                             control={control}
                             rules={{ required: 'Company Name is required' }}
+                            placeholder="e.g. ABC Inc."
                         />
                         <TextInput
                             label="Roll"
                             name={`experiences.${i}.roll`}
                             control={control}
                             rules={{ required: 'Roll is required' }}
+                            placeholder="e.g. Developer"
                         />
                         <DateInput
                             label="Start Date"
@@ -55,6 +57,7 @@ const Experiences: React.FC<ExperienceProps> = ({ control, errors, experienceCou
                             control={control}
                             rules={{ required: 'Description is required' }}
                             textarea
+                            placeholder="e.g. Responsibilities and achievements"
                         />
                     </div>
                 );
